@@ -1,0 +1,727 @@
+```html
+<!DOCTYPE html>
+<html lang="hi" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Happy 1st Anniversary My Love</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Canvas Confetti CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        rose: {
+                            50: '#fff1f2',
+                            100: '#ffe4e6',
+                            200: '#fecdd3',
+                            300: '#fda4af',
+                            400: '#fb7185',
+                            500: '#f43f5e',
+                            600: '#e11d48',
+                            700: '#be123c',
+                            800: '#9f1239',
+                            900: '#881337',
+                        },
+                        gold: '#d4af37',
+                        burgundy: '#4a0e17'
+                    },
+                    fontFamily: {
+                        cursive: ['"Dancing Script"', 'cursive'],
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Custom animations & styles */
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: linear-gradient(135deg, #2b080c 0%, #4a0e17 50%, #1f0407 100%);
+            color: #fecdd3;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* Floating background canvas */
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .cursive-font {
+            font-family: 'Dancing Script', cursive;
+        }
+
+        /* Glassmorphism Card */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        /* Perspective for flip cards */
+        .perspective-1000 {
+            perspective: 1000px;
+        }
+        .transform-style-3d {
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .rotate-y-180 {
+            transform: rotateY(180deg);
+        }
+        .backface-hidden {
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+        }
+
+        /* Scratch Card Canvas */
+        #scratchCanvas {
+            border-radius: 1rem;
+            touch-action: none;
+            cursor: pointer;
+        }
+
+        /* Scrollbar aesthetics */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(0,0,0,0.2);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(244, 63, 94, 0.5);
+            border-radius: 10px;
+        }
+
+        /* Glowing Pulse Animation */
+        @keyframes subtleGlow {
+            0%, 100% { box-shadow: 0 0 15px rgba(244, 63, 94, 0.3); }
+            50% { box-shadow: 0 0 25px rgba(244, 63, 94, 0.6); }
+        }
+        .glow-effect {
+            animation: subtleGlow 3s infinite;
+        }
+    </style>
+</head>
+<body class="min-h-full relative pb-12">
+
+    <!-- Floating Background Hearts Canvas -->
+    <canvas id="particleCanvas"></canvas>
+
+    <!-- Top Music & Floating Action Controls -->
+    <div class="fixed top-4 right-4 z-50 flex items-center gap-2">
+        <button id="musicToggle" onclick="toggleMusic()" class="glass-card p-3 rounded-full text-rose-300 hover:text-white hover:bg-rose-600/40 transition-all flex items-center justify-center w-12 h-12 shadow-lg">
+            <i id="musicIcon" class="fas fa-music text-lg"></i>
+        </button>
+        <button onclick="triggerHearts()" class="glass-card p-3 rounded-full text-rose-300 hover:text-white hover:bg-rose-600/40 transition-all flex items-center justify-center w-12 h-12 shadow-lg glow-effect">
+            <i class="fas fa-heart text-lg text-rose-500 animate-pulse"></i>
+        </button>
+    </div>
+
+    <!-- MAIN CONTAINER -->
+    <main class="relative z-10 max-w-4xl mx-auto px-4 pt-6 space-y-12">
+
+        <!-- 1. HERO SECTION -->
+        <section class="text-center space-y-6 pt-6">
+            <div class="inline-block px-4 py-1.5 rounded-full glass-card text-rose-300 text-sm font-semibold tracking-wide border border-rose-500/30">
+                1 Year Together
+            </div>
+            
+            <h1 class="text-5xl md:text-7xl cursive-font font-bold text-transparent bg-clip-text bg-gradient-to-r from-rose-100 via-rose-300 to-rose-100 drop-shadow-xl leading-snug">
+                Happy 1st Anniversary ❤️
+            </h1>
+            
+            <p class="text-base md:text-lg text-rose-200/90 max-w-xl mx-auto font-light leading-relaxed">
+                Pata hi nahi chala ek saal kab beet gaya tum meri life ka sabse pyaara part ho aur sach kahun toh tumhare bina ab din hi adhura lagta hai
+            </p>
+
+            <!-- Counter Box -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 max-w-2xl mx-auto pt-4">
+                <div class="glass-card p-4 rounded-2xl border border-rose-500/20 text-center">
+                    <span class="block text-3xl md:text-4xl font-bold text-rose-300 font-mono">365</span>
+                    <span class="text-xs uppercase tracking-wider text-rose-200/70">Days</span>
+                </div>
+                <div class="glass-card p-4 rounded-2xl border border-rose-500/20 text-center">
+                    <span class="block text-3xl md:text-4xl font-bold text-rose-300 font-mono">8,760</span>
+                    <span class="text-xs uppercase tracking-wider text-rose-200/70">Hours</span>
+                </div>
+                <div class="glass-card p-4 rounded-2xl border border-rose-500/20 text-center">
+                    <span class="block text-3xl md:text-4xl font-bold text-rose-300 font-mono">525,600</span>
+                    <span class="text-xs uppercase tracking-wider text-rose-200/70">Minutes</span>
+                </div>
+                <div class="glass-card p-4 rounded-2xl border border-rose-500/20 text-center">
+                    <span class="block text-3xl md:text-4xl font-bold text-rose-300 font-mono">Forever</span>
+                    <span class="text-xs uppercase tracking-wider text-rose-200/70">To Go</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. MEMORY TIMELINE -->
+        <section class="space-y-6">
+            <div class="text-center space-y-1">
+                <h2 class="text-3xl md:text-4xl cursive-font text-rose-300">Our Timeline</h2>
+                <p class="text-xs md:text-sm text-rose-200/60">Tap karke padho humari pyaari yaadein</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Memory Item 1 -->
+                <div class="glass-card p-5 rounded-2xl cursor-pointer hover:border-rose-400/50 transition-all border border-rose-500/20" onclick="toggleMemory('mem1')">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-300 font-bold text-sm">01</div>
+                            <div>
+                                <h3 class="font-semibold text-rose-100">Where It Get Started</h3>
+                                <p class="text-xs text-rose-300/80">Jab hum ek doosre ko nahi jaante the</p>
+                            </div>
+                        </div>
+                        <i id="mem1-icon" class="fas fa-chevron-down text-rose-300/60 transition-transform"></i>
+                    </div>
+                    <div id="mem1" class="hidden mt-4 pt-3 border-t border-rose-500/20 text-sm text-rose-200/80 space-y-2">
+                        <p>Jab humne start kiya tha tab hum ek doosre ko jaante bhi nahi the normal baatein hoti thi par mujhe bilkul andaza nahi tha ki tum meri life ka itna bada part ban jaoge aur dekho aaj haal yeh hai ki ek doosre ke bina rehna mushkil lagta hai</p>
+                    </div>
+                </div>
+
+                <!-- Memory Item 2 -->
+                <div class="glass-card p-5 rounded-2xl cursor-pointer hover:border-rose-400/50 transition-all border border-rose-500/20" onclick="toggleMemory('mem2')">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-300 font-bold text-sm">02</div>
+                            <div>
+                                <h3 class="font-semibold text-rose-100">Our Special Connection</h3>
+                                <p class="text-xs text-rose-300/80">Chats aur messages ki baatein</p>
+                            </div>
+                        </div>
+                        <i id="mem2-icon" class="fas fa-chevron-down text-rose-300/60 transition-transform"></i>
+                    </div>
+                    <div id="mem2" class="hidden mt-4 pt-3 border-t border-rose-500/20 text-sm text-rose-200/80 space-y-2">
+                        <p>Hum abhi tak kabhi mile nahi hain aur call par bhi bohot rarely baat hoti hai par fir bhi lagta nahi ki hum door hain chats par text messages ke zariye humari alag hi bonding ban gayi hai</p>
+                    </div>
+                </div>
+
+                <!-- Memory Item 3 -->
+                <div class="glass-card p-5 rounded-2xl cursor-pointer hover:border-rose-400/50 transition-all border border-rose-500/20" onclick="toggleMemory('mem3')">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-300 font-bold text-sm">03</div>
+                            <div>
+                                <h3 class="font-semibold text-rose-100">Understanding Each Other</h3>
+                                <p class="text-xs text-rose-300/80">Bina mile bhi itna samjhna</p>
+                            </div>
+                        </div>
+                        <i id="mem3-icon" class="fas fa-chevron-down text-rose-300/60 transition-transform"></i>
+                    </div>
+                    <div id="mem3" class="hidden mt-4 pt-3 border-t border-rose-500/20 text-sm text-rose-200/80 space-y-2">
+                        <p>Bina mile bhi tum mere text padhkar samajh jaati ho ki mera mood kaisa hai thodi bohot nok jhok aur bohot saara pyaar bas aise hi sab chal raha hai</p>
+                    </div>
+                </div>
+
+                <!-- Memory Item 4 -->
+                <div class="glass-card p-5 rounded-2xl cursor-pointer hover:border-rose-400/50 transition-all border border-rose-500/20" onclick="toggleMemory('mem4')">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 rounded-full bg-rose-500/20 flex items-center justify-center text-rose-300 font-bold text-sm">04</div>
+                            <div>
+                                <h3 class="font-semibold text-rose-100">1 Year Completed</h3>
+                                <p class="text-xs text-rose-300/80">Aaj ka din</p>
+                            </div>
+                        </div>
+                        <i id="mem4-icon" class="fas fa-chevron-down text-rose-300/60 transition-transform"></i>
+                    </div>
+                    <div id="mem4" class="hidden mt-4 pt-3 border-t border-rose-500/20 text-sm text-rose-200/80 space-y-2">
+                        <p>Aaj pure ek saal ho gaye humare relationship ko sach me time kitna jaldi nikal gaya bas aage bhi humesha aise hi rehna hai aur ek din zaroor milna hai</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. OPEN WHEN DIGITAL ENVELOPES -->
+        <section class="space-y-6">
+            <div class="text-center space-y-1">
+                <h2 class="text-3xl md:text-4xl cursive-font text-rose-300">Open When Letters</h2>
+                <p class="text-xs md:text-sm text-rose-200/60">Jab bhi mood kare inme se ek letter open kar lena</p>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <!-- Envelope 1 (Restored Original Square Flap Envelope Style) -->
+                <div onclick="openLetter('missMe')" class="glass-card aspect-square p-4 rounded-2xl cursor-pointer hover:scale-105 transition-all duration-300 flex flex-col items-center justify-between text-center border border-rose-500/30 group relative overflow-hidden">
+                    <div class="w-full flex justify-end">
+                        <span class="text-[10px] text-rose-300/60 font-mono">LETTER 01</span>
+                    </div>
+                    <div class="my-auto space-y-3">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-rose-500/30 to-rose-700/30 border border-rose-400/30 flex items-center justify-center text-rose-300 mx-auto group-hover:bg-rose-600 group-hover:text-white transition-all duration-300 shadow-md">
+                            <i class="fas fa-envelope-open-text text-3xl"></i>
+                        </div>
+                        <h3 class="text-sm font-semibold text-rose-100 group-hover:text-white transition-colors">Open when you miss me</h3>
+                    </div>
+                    <div class="text-[11px] text-rose-300/80 font-medium py-1 px-3 rounded-full bg-rose-500/10 border border-rose-500/20">
+                        Tap to open 💌
+                    </div>
+                </div>
+
+                <!-- Envelope 2 -->
+                <div onclick="openLetter('feelDown')" class="glass-card aspect-square p-4 rounded-2xl cursor-pointer hover:scale-105 transition-all duration-300 flex flex-col items-center justify-between text-center border border-rose-500/30 group relative overflow-hidden">
+                    <div class="w-full flex justify-end">
+                        <span class="text-[10px] text-rose-300/60 font-mono">LETTER 02</span>
+                    </div>
+                    <div class="my-auto space-y-3">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-rose-500/30 to-rose-700/30 border border-rose-400/30 flex items-center justify-center text-rose-300 mx-auto group-hover:bg-rose-600 group-hover:text-white transition-all duration-300 shadow-md">
+                            <i class="fas fa-heart-broken text-3xl"></i>
+                        </div>
+                        <h3 class="text-sm font-semibold text-rose-100 group-hover:text-white transition-colors">Open when you feel down</h3>
+                    </div>
+                    <div class="text-[11px] text-rose-300/80 font-medium py-1 px-3 rounded-full bg-rose-500/10 border border-rose-500/20">
+                        Tap to open 💌
+                    </div>
+                </div>
+
+                <!-- Envelope 3 -->
+                <div onclick="openLetter('wantSmile')" class="glass-card aspect-square p-4 rounded-2xl cursor-pointer hover:scale-105 transition-all duration-300 flex flex-col items-center justify-between text-center border border-rose-500/30 group relative overflow-hidden">
+                    <div class="w-full flex justify-end">
+                        <span class="text-[10px] text-rose-300/60 font-mono">LETTER 03</span>
+                    </div>
+                    <div class="my-auto space-y-3">
+                        <div class="w-16 h-16 rounded-2xl bg-gradient-to-br from-rose-500/30 to-rose-700/30 border border-rose-400/30 flex items-center justify-center text-rose-300 mx-auto group-hover:bg-rose-600 group-hover:text-white transition-all duration-300 shadow-md">
+                            <i class="fas fa-smile-beam text-3xl"></i>
+                        </div>
+                        <h3 class="text-sm font-semibold text-rose-100 group-hover:text-white transition-colors">Open when you want to smile</h3>
+                    </div>
+                    <div class="text-[11px] text-rose-300/80 font-medium py-1 px-3 rounded-full bg-rose-500/10 border border-rose-500/20">
+                        Tap to open 💌
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. REASONS WHY I LOVE YOU (FLIP CARDS) -->
+        <section class="space-y-6">
+            <div class="text-center space-y-1">
+                <h2 class="text-3xl md:text-4xl cursive-font text-rose-300">Why I Love You</h2>
+                <p class="text-xs md:text-sm text-rose-200/60">Cards par tap karke flip karo</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- Card 1 -->
+                <div class="h-40 perspective-1000 cursor-pointer" onclick="flipCard(this)">
+                    <div class="transform-style-3d relative w-full h-full rounded-2xl transition-transform duration-500">
+                        <div class="absolute inset-0 glass-card rounded-2xl p-4 flex flex-col items-center justify-center border border-rose-500/30 backface-hidden text-center">
+                            <i class="fas fa-smile text-3xl text-rose-400 mb-2"></i>
+                            <span class="font-semibold text-rose-100 text-sm">Reason 01</span>
+                            <span class="text-xs text-rose-300/70 mt-1">Tap to flip</span>
+                        </div>
+                        <div class="absolute inset-0 glass-card bg-rose-900/60 rounded-2xl p-4 flex items-center justify-center border border-rose-400/50 backface-hidden rotate-y-180 text-center">
+                            <p class="text-xs md:text-sm text-rose-100">Tumhari cute baatein jo mera pura kharab din bhi ek second me accha kar deti hain</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="h-40 perspective-1000 cursor-pointer" onclick="flipCard(this)">
+                    <div class="transform-style-3d relative w-full h-full rounded-2xl transition-transform duration-500">
+                        <div class="absolute inset-0 glass-card rounded-2xl p-4 flex flex-col items-center justify-center border border-rose-500/30 backface-hidden text-center">
+                            <i class="fas fa-hands-holding-heart text-3xl text-rose-400 mb-2"></i>
+                            <span class="font-semibold text-rose-100 text-sm">Reason 02</span>
+                            <span class="text-xs text-rose-300/70 mt-1">Tap to flip</span>
+                        </div>
+                        <div class="absolute inset-0 glass-card bg-rose-900/60 rounded-2xl p-4 flex items-center justify-center border border-rose-400/50 backface-hidden rotate-y-180 text-center">
+                            <p class="text-xs md:text-sm text-rose-100">Tum jis tarah se meri care karti ho aur bina mile bhi bina kahe meri baatein samajh jaati ho</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="h-40 perspective-1000 cursor-pointer" onclick="flipCard(this)">
+                    <div class="transform-style-3d relative w-full h-full rounded-2xl transition-transform duration-500">
+                        <div class="absolute inset-0 glass-card rounded-2xl p-4 flex flex-col items-center justify-center border border-rose-500/30 backface-hidden text-center">
+                            <i class="fas fa-star text-3xl text-rose-400 mb-2"></i>
+                            <span class="font-semibold text-rose-100 text-sm">Reason 03</span>
+                            <span class="text-xs text-rose-300/70 mt-1">Tap to flip</span>
+                        </div>
+                        <div class="absolute inset-0 glass-card bg-rose-900/60 rounded-2xl p-4 flex items-center justify-center border border-rose-400/50 backface-hidden rotate-y-180 text-center">
+                            <p class="text-xs md:text-sm text-rose-100">Kyunki tum bilkul real ho koi natak nahi bas jaise ho waise hi sabse best ho</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. INTERACTIVE LOVE COUPON BOOK -->
+        <section class="space-y-6">
+            <div class="text-center space-y-1">
+                <h2 class="text-3xl md:text-4xl cursive-font text-rose-300">Love Coupons</h2>
+                <p class="text-xs md:text-sm text-rose-200/60">Inhe jab chahe redeem kar sakti ho</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <!-- Coupon 1 -->
+                <div class="glass-card p-5 rounded-2xl border border-dashed border-rose-400/40 relative overflow-hidden flex flex-col justify-between space-y-3">
+                    <div>
+                        <div class="flex justify-between items-start">
+                            <span class="text-xs text-rose-300 font-mono tracking-wider">COUPON 01</span>
+                            <i class="fas fa-phone text-rose-400"></i>
+                        </div>
+                        <h3 class="font-bold text-rose-100 text-base mt-2">Rare Voice Call Pass</h3>
+                        <p class="text-xs text-rose-200/70 mt-1">Hum rare hi call karte hain par is coupon se jab tum chaho tab lambi call kar sakte hain</p>
+                    </div>
+                    <button onclick="redeemCoupon(this, 'Rare Voice Call Pass')" class="w-full py-2 bg-rose-600/80 hover:bg-rose-500 text-white text-xs font-semibold rounded-xl transition-all shadow-md">
+                        Redeem
+                    </button>
+                </div>
+
+                <!-- Coupon 2 -->
+                <div class="glass-card p-5 rounded-2xl border border-dashed border-rose-400/40 relative overflow-hidden flex flex-col justify-between space-y-3">
+                    <div>
+                        <div class="flex justify-between items-start">
+                            <span class="text-xs text-rose-300 font-mono tracking-wider">COUPON 02</span>
+                            <i class="fas fa-heart text-rose-400"></i>
+                        </div>
+                        <h3 class="font-bold text-rose-100 text-base mt-2">First Meeting Promise</h3>
+                        <p class="text-xs text-rose-200/70 mt-1">Jab hum pehli baar milenge tab bohot saara time saath spend karenge aur ek bada hug dunga</p>
+                    </div>
+                    <button onclick="redeemCoupon(this, 'First Meeting Promise')" class="w-full py-2 bg-rose-600/80 hover:bg-rose-500 text-white text-xs font-semibold rounded-xl transition-all shadow-md">
+                        Redeem
+                    </button>
+                </div>
+
+                <!-- Coupon 3 -->
+                <div class="glass-card p-5 rounded-2xl border border-dashed border-rose-400/40 relative overflow-hidden flex flex-col justify-between space-y-3">
+                    <div>
+                        <div class="flex justify-between items-start">
+                            <span class="text-xs text-rose-300 font-mono tracking-wider">COUPON 03</span>
+                            <i class="fas fa-comment-dots text-rose-400"></i>
+                        </div>
+                        <h3 class="font-bold text-rose-100 text-base mt-2">Win Any Argument Pass</h3>
+                        <p class="text-xs text-rose-200/70 mt-1">Jab bhi humari koi choti behas ho yeh coupon use karke tum Bina kisi sawaal ke jeet sakti ho</p>
+                    </div>
+                    <button onclick="redeemCoupon(this, 'Win Any Argument Pass')" class="w-full py-2 bg-rose-600/80 hover:bg-rose-500 text-white text-xs font-semibold rounded-xl transition-all shadow-md">
+                        Redeem
+                    </button>
+                </div>
+
+                <!-- Coupon 4 -->
+                <div class="glass-card p-5 rounded-2xl border border-dashed border-rose-400/40 relative overflow-hidden flex flex-col justify-between space-y-3">
+                    <div>
+                        <div class="flex justify-between items-start">
+                            <span class="text-xs text-rose-300 font-mono tracking-wider">COUPON 04</span>
+                            <i class="fas fa-gift text-rose-400"></i>
+                        </div>
+                        <h3 class="font-bold text-rose-100 text-base mt-2">Instant Virtual Date</h3>
+                        <p class="text-xs text-rose-200/70 mt-1">Is coupon se jab chahe ek dedicated text date arrange kar sakte hain jahan sirf humari baatein hongi</p>
+                    </div>
+                    <button onclick="redeemCoupon(this, 'Instant Virtual Date')" class="w-full py-2 bg-rose-600/80 hover:bg-rose-500 text-white text-xs font-semibold rounded-xl transition-all shadow-md">
+                        Redeem
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 6. SCRATCH CARD SECRET REVEAL -->
+        <section class="space-y-6">
+            <div class="text-center space-y-1">
+                <h2 class="text-3xl md:text-4xl cursive-font text-rose-300">Secret Note</h2>
+                <p class="text-xs md:text-sm text-rose-200/60">Niche scratch karke mera message padho</p>
+            </div>
+
+            <div class="max-w-xl mx-auto relative rounded-2xl overflow-hidden glass-card p-6 border border-rose-500/30">
+                <!-- Secret Message Behind -->
+                <div id="scratchSecret" class="space-y-4 text-center">
+                    <div class="w-12 h-12 rounded-full bg-rose-500/20 text-rose-300 flex items-center justify-center mx-auto text-2xl">
+                        💌
+                    </div>
+                    <h3 class="text-xl cursive-font text-rose-200">Suno Na</h3>
+                    <p class="text-sm text-rose-100/90 leading-relaxed">
+                        Sach kahun toh ek saal pehle mujhe nahi pata tha ki hum itne close ho jayenge jab humne start kiya tha tab hum ek doosre ko jaante bhi nahi the lekin ab ek doosre ke bina rehna mushkil lagta hai hum aaj tak mile nahi hain aur call par bhi rarely baat hoti hai fir bhi lagta hai tum sabse paas ho thank you mere saath rehne ke liye aur mujhe samjhne ke liye happy one year anniversary meri jaan
+                    </p>
+                </div>
+
+                <!-- Canvas Layer Overlay for Scratching -->
+                <canvas id="scratchCanvas" class="absolute inset-0 w-full h-full z-20"></canvas>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="text-center text-xs text-rose-300/50 pt-8 pb-4">
+            Aise hi humesha saath rehna ❤️ Happy 1st Anniversary
+        </footer>
+
+    </main>
+
+    <!-- ENVELOPE MODAL POPUP -->
+    <div id="letterModal" class="fixed inset-0 bg-black/70 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="glass-card max-w-md w-full p-6 rounded-3xl border border-rose-400/40 relative animate-fade-in space-y-4 text-center">
+            <button onclick="closeModal()" class="absolute top-4 right-4 text-rose-300 hover:text-white text-xl">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="w-12 h-12 bg-rose-500/20 rounded-full flex items-center justify-center text-rose-300 text-2xl mx-auto">
+                ✉️
+            </div>
+            <h3 id="modalTitle" class="text-2xl cursive-font text-rose-200"></h3>
+            <p id="modalBody" class="text-sm text-rose-100/90 leading-relaxed text-left py-2 max-h-60 overflow-y-auto"></p>
+            <button onclick="closeModal()" class="px-6 py-2 bg-rose-600 hover:bg-rose-500 text-white rounded-full text-xs font-semibold transition-all shadow-md">
+                Close
+            </button>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT CODE -->
+    <script>
+        // -------------------------------------------------------------
+        // 1. FLOATING HEART PARTICLES CANVAS
+        // -------------------------------------------------------------
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class HeartParticle {
+            constructor() {
+                this.reset();
+            }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = canvas.height + Math.random() * 20;
+                this.size = Math.random() * 12 + 8;
+                this.speedY = Math.random() * 1.5 + 0.5;
+                this.opacity = Math.random() * 0.5 + 0.3;
+                this.swing = Math.random() * 0.05;
+                this.swingAngle = Math.random() * Math.PI * 2;
+            }
+            update() {
+                this.y -= this.speedY;
+                this.swingAngle += this.swing;
+                this.x += Math.sin(this.swingAngle) * 0.5;
+                if (this.y < -20) this.reset();
+            }
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = '#f43f5e';
+                ctx.font = `${this.size}px Arial`;
+                ctx.fillText('❤️', this.x, this.y);
+                ctx.restore();
+            }
+        }
+
+        for (let i = 0; i < 25; i++) {
+            particles.push(new HeartParticle());
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // -------------------------------------------------------------
+        // 2. HEART SHOWER BUTTON TRIGGER
+        // -------------------------------------------------------------
+        function triggerHearts() {
+            confetti({
+                particleCount: 40,
+                spread: 60,
+                origin: { y: 0.8 },
+                colors: ['#f43f5e', '#fda4af', '#be123c', '#ffffff'],
+                shapes: ['square']
+            });
+            for (let i = 0; i < 15; i++) {
+                particles.push(new HeartParticle());
+            }
+        }
+
+        // -------------------------------------------------------------
+        // 3. BACKGROUND MUSIC SYNTH (WEB AUDIO API)
+        // -------------------------------------------------------------
+        let audioCtx = null;
+        let isPlaying = false;
+        let musicInterval = null;
+
+        function toggleMusic() {
+            const musicIcon = document.getElementById('musicIcon');
+            if (!isPlaying) {
+                if (!audioCtx) {
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                }
+                isPlaying = true;
+                musicIcon.classList.add('text-rose-500', 'animate-spin');
+                playLoFiNotes();
+            } else {
+                isPlaying = false;
+                musicIcon.classList.remove('text-rose-500', 'animate-spin');
+                if (musicInterval) clearInterval(musicInterval);
+            }
+        }
+
+        function playLoFiNotes() {
+            const notes = [261.63, 293.66, 329.63, 349.23, 392.00, 440.00];
+            musicInterval = setInterval(() => {
+                if (!isPlaying || !audioCtx) return;
+                
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                
+                const freq = notes[Math.floor(Math.random() * notes.length)];
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                
+                gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 2);
+                
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                
+                osc.start();
+                osc.stop(audioCtx.currentTime + 2);
+            }, 1200);
+        }
+
+        // -------------------------------------------------------------
+        // 4. MEMORY TOGGLE
+        // -------------------------------------------------------------
+        function toggleMemory(id) {
+            const elem = document.getElementById(id);
+            const icon = document.getElementById(id + '-icon');
+            if (elem.classList.contains('hidden')) {
+                elem.classList.remove('hidden');
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                elem.classList.add('hidden');
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        // -------------------------------------------------------------
+        // 5. OPEN WHEN LETTERS DATA & MODAL
+        // -------------------------------------------------------------
+        const lettersData = {
+            missMe: {
+                title: "When You Miss Me",
+                body: "Jab bhi meri yaad aaye bas soch lena ki main hamesha tumhare baare me hi soch raha hoon dooriyaan hain par chats par hum hamesha ek doosre ke paas hain"
+            },
+            feelDown: {
+                title: "When You Feel Down",
+                body: "Agar aaj ka din thoda heavy lag raha hai ya koi baat pareshan kar rahi hai toh tension mat lo main hoon na bas ek text kar dena main tumhara mood thik kar dunga"
+            },
+            wantSmile: {
+                title: "When You Want To Smile",
+                body: "Bas yeh yaad karna ki hum bina mile bhi text par kitni pyaari baatein karte hain tumhari muskurahat sabse best hai humesha aise hi muskurati raha karo"
+            }
+        };
+
+        function openLetter(key) {
+            const modal = document.getElementById('letterModal');
+            const data = lettersData[key];
+            document.getElementById('modalTitle').innerText = data.title;
+            document.getElementById('modalBody').innerText = data.body;
+            modal.classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('letterModal').classList.add('hidden');
+        }
+
+        // -------------------------------------------------------------
+        // 6. CARD FLIP LOGIC
+        // -------------------------------------------------------------
+        function flipCard(card) {
+            const inner = card.querySelector('.transform-style-3d');
+            inner.classList.toggle('rotate-y-180');
+        }
+
+        // -------------------------------------------------------------
+        // 7. LOVE COUPON REDEEM
+        // -------------------------------------------------------------
+        function redeemCoupon(btn, name) {
+            confetti({
+                particleCount: 50,
+                spread: 70,
+                origin: { y: 0.7 }
+            });
+            btn.innerText = "Redeemed";
+            btn.disabled = true;
+            btn.classList.remove('bg-rose-600/80', 'hover:bg-rose-500');
+            btn.classList.add('bg-emerald-600', 'cursor-not-allowed');
+        }
+
+        // -------------------------------------------------------------
+        // 8. SCRATCH CARD CANVAS CODE
+        // -------------------------------------------------------------
+        const scratchCanvas = document.getElementById('scratchCanvas');
+        const sCtx = scratchCanvas.getContext('2d');
+        let isScratching = false;
+
+        function initScratch() {
+            const rect = scratchCanvas.parentElement.getBoundingClientRect();
+            scratchCanvas.width = rect.width;
+            scratchCanvas.height = rect.height;
+
+            const grad = sCtx.createLinearGradient(0, 0, scratchCanvas.width, scratchCanvas.height);
+            grad.addColorStop(0, '#be123c');
+            grad.addColorStop(0.5, '#e11d48');
+            grad.addColorStop(1, '#9f1239');
+            
+            sCtx.fillStyle = grad;
+            sCtx.fillRect(0, 0, scratchCanvas.width, scratchCanvas.height);
+
+            sCtx.fillStyle = '#ffffff';
+            sCtx.font = '18px Plus Jakarta Sans';
+            sCtx.textAlign = 'center';
+            sCtx.fillText('Scratch here to reveal note', scratchCanvas.width / 2, scratchCanvas.height / 2);
+        }
+
+        function scratch(e) {
+            if (!isScratching) return;
+            const rect = scratchCanvas.getBoundingClientRect();
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            
+            const x = clientX - rect.left;
+            const y = clientY - rect.top;
+
+            sCtx.globalCompositeOperation = 'destination-out';
+            sCtx.beginPath();
+            sCtx.arc(x, y, 25, 0, Math.PI * 2);
+            sCtx.fill();
+        }
+
+        scratchCanvas.addEventListener('mousedown', (e) => { isScratching = true; scratch(e); });
+        scratchCanvas.addEventListener('mousemove', scratch);
+        scratchCanvas.addEventListener('mouseup', () => { isScratching = false; });
+
+        scratchCanvas.addEventListener('touchstart', (e) => { isScratching = true; scratch(e); });
+        scratchCanvas.addEventListener('touchmove', scratch);
+        scratchCanvas.addEventListener('touchend', () => { isScratching = false; });
+
+        window.addEventListener('load', initScratch);
+        window.addEventListener('resize', initScratch);
+    </script>
+</body>
+</html>
+```
